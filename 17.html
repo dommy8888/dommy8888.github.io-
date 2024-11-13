@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Will You Be My Boyfriend?</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Playfair Display', serif;
+            text-align: center;
+            background-color: white;
+            color: black;
+            padding: 50px;
+        }
+        h1 {
+            color: black;
+        }
+        .btn {
+            padding: 15px 30px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 18px;
+            transition: 0.3s ease;
+        }
+        .yes-btn {
+            background-color: green;
+        }
+        .yes-btn:hover {
+            background-color: #4CAF50;
+        }
+        .no-btn {
+            background-color: red;
+        }
+        .no-btn:hover {
+            background-color: #f44336;
+        }
+        .yes-btn:active {
+            transform: translateY(-10px);
+        }
+        .no-btn:active {
+            animation: shake 0.5s ease-in-out infinite;
+        }
+        @keyframes shake {
+            0%, 100% {
+                transform: translateX(0);
+            }
+            25% {
+                transform: translateX(-10px);
+            }
+            50% {
+                transform: translateX(10px);
+            }
+            75% {
+                transform: translateX(-10px);
+            }
+        }
+        .hidden-message, #dateInput, #newPage {
+            display: none;
+        }
+        .heart {
+            font-size: 50px;
+            color: #ff4081;
+            display: inline-block;
+            margin-top: 20px;
+            opacity: 0;
+            animation: heartbeat 1.5s infinite;
+        }
+        @keyframes heartbeat {
+            0%, 100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.2);
+            }
+        }
+        #popup {
+            display: none;
+            background-color: #fff;
+            border: 2px solid #ff4081;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        }
+        #popup iframe {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <h1 id="header">Will you be my boyfriend?</h1>
+
+    <div>
+        <button class="btn yes-btn" id="yesBtn">Yes</button>
+        <button class="btn no-btn" id="noBtn">No</button>
+    </div>
+
+    <canvas id="confetti"></canvas>
+    <div id="heart" class="heart">??</div>
+    <div id="thankYouMessage" class="hidden-message">
+        <p>Ah, the question of whether I would be so honored as to accept you as my partner in this beautiful, albeit complex, journey of love. The thought fills me with a profound sense of elation, as though the very universe itself conspired to weave our fates together, entwining our paths as though they were always destined to converge.</p>
+        
+        <p>To be asked such a question, not with hesitation but with the courage that only a soul daring to share its deepest affections can summon, fills me with a joy that verges on ineffable. Your invitation into a realm where hearts, once solitary, become one is a tapestry that I am more than willing to explore with you. To walk beside you, through both the mundane and the extraordinary, and to be a steadfast witness to your growth, your joys, your struggles — is a vision I cherish deeply.</p>
+
+        <p>In you, I see a soul that complements mine in ways both subtle and grand. Your presence fills the spaces in my life I never knew needed filling. It is in the quiet moments when our eyes meet, when a simple word spoken between us carries the weight of the unspoken, that I feel the profound connection we share. The idea of making this connection official, of calling you not just my companion but my love, is an honor that I do not take lightly.</p>
+
+        <p>Thus, Alec, I must confess that my heart, already deeply fond of you, eagerly accepts the invitation you have extended. Let us embark together on this journey, not merely as lovers, but as two souls bound by a shared purpose, a shared life, and a shared love that is as expansive and limitless as the stars themselves. You have my heart, now and forever, and I look forward to the endless chapters we will write together.</p>
+
+        <iframe src="https://giphy.com/embed/OpfkuToK5gSHK" width="480" height="355" style="" frameBorder="0" class="giphy-embed" allowFullScreen></iframe>
+        <p><a href="https://giphy.com/gifs/disney-snow-white-doc-and-the-seven-dwarfs-OpfkuToK5gSHK">via GIPHY</a></p>
+    </div>
+    
+    <div id="dateInput" class="hidden-message">
+        <p>So when's our next date?</p>
+        <input type="date" id="specialDate">
+        <button class="btn yes-btn" id="confirmDate">Confirm Date</button>
+    </div>
+
+    <div id="newPage">
+        <h1>y'all think wifey gon fw this?</h1>
+        <iframe src="https://giphy.com/embed/wG1i2KJyB3zlC" width="480" height="365" style="" frameBorder="0" class="giphy-embed" allowFullScreen></iframe>
+        <audio id="newPageAudio" src="C:\Users\domin.DOMINICKSPC\Downloads\Mendelssohns Wedding March.mp3"></audio>
+        <audio id="nextAudio" src="C:\Users\domin.DOMINICKSPC\Downloads\On Sight.mp3"></audio>
+    </div>
+
+    <script>
+        const yesButton = document.getElementById('yesBtn');
+        const noButton = document.getElementById('noBtn');
+        const yesSound = new Audio('C:\\Users\\domin.DOMINICKSPC\\Downloads\\Kiss Me.mp3');
+        const noSound = new Audio('C:\\Users\\domin.DOMINICKSPC\\Downloads\\Yesterday Remastered 2009.mp3');
+        const heart = document.getElementById('heart');
+        const thankYouMessage = document.getElementById('thankYouMessage');
+        const popup = document.getElementById('popup');
+        const dateInput = document.getElementById('dateInput');
+        const confirmDate = document.getElementById('confirmDate');
+        const header = document.getElementById('header');
+        const newPage = document.getElementById('newPage');
+        const newPageAudio = document.getElementById('newPageAudio');
+        const nextAudio = document.getElementById('nextAudio');
+
+        let isPlayingYes = false;
+        let isPlayingNo = false;
+        let onSightPlayed = false;
+
+        function startConfetti() {
+            const duration = 7000;
+            const animationEnd = Date.now() + duration;
+            const defaults = { particleCount: 100, spread: 70, origin: { y: 0.6 } };
+
+            const interval = setInterval(() => {
+                if (Date.now() >= animationEnd) clearInterval(interval);
+                confetti({ ...defaults, particleCount: 50 });
+            }, 250);
+        }
+
+        yesButton.onclick = function() {
+            // Stop "No" music if it's playing
+            if (isPlayingNo) {
+                noSound.pause();
+                noSound.currentTime = 0;
+                isPlayingNo = false;
+            }
+            
+            // Play "Yes" music
+            if (!isPlayingYes) {
+                yesSound.play();
+                isPlayingYes = true;
+            }
+            
+            startConfetti();
+            heart.style.opacity = 1;
+            thankYouMessage.style.display = 'block';
+            dateInput.style.display = 'block';
+        };
+
+        noButton.onclick = function() {
+            // Stop "Yes" music if it's playing
+            if (isPlayingYes) {
+                yesSound.pause();
+                yesSound.currentTime = 0;
+                isPlayingYes = false;
+            }
+
+            // Play "No" music
+            if (!isPlayingNo) {
+                noSound.play();
+                isPlayingNo = true;
+            }
+        };
+
+        confirmDate.onclick = function() {
+            // Stop "Yes" music
+            yesSound.pause();
+            yesSound.currentTime = 0;
+
+            // Play Wedding March
+            newPage.style.display = 'block';
+            newPageAudio.play();
+
+            // Play "On Sight" after 15 seconds
+            setTimeout(function() {
+                if (!onSightPlayed) {
+                    nextAudio.play();
+                    onSightPlayed = true;
+                }
+            }, 15000); // 15 seconds delay
+        };
+    </script>
+</body>
+</html>
